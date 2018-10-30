@@ -1,0 +1,56 @@
+@startuml
+package Token <<Rectangle>> {
+
+    interface ERC20 {
+        __ events __
+        {abstract} Approval()
+        {abstract} Transfer()
+        ___
+        + allowance()
+        + approve()
+        + balanceOf()
+        + totalSupply()
+        + transfer()
+        + transferFrom()
+    }
+
+    class Token {
+        + cancellations
+        # balances
+        - allowed
+
+        + issuer
+        + issuingFinished
+        # totalSupployTokens
+        + compliance
+        + store
+
+        + name
+        + symbol
+        + decimals
+        __ events __
+        {abstract} VerifiedAddressSuperseded()
+        {abstract} IssuerSet()
+        {abstract} Issue()
+        {abstract} IssueFinished()
+        ____
+        + totalSupply()
+        + balanceOf()
+        + allowance()
+        + holderAt()
+        + isHolder()
+        + isSuperseded()
+        + getSuperseded()
+        + setCompliance()
+        + setStorage()
+        + transfer()
+        + transferFrom()
+        + approve()
+        + setIssuer()
+        + issueTokens()
+        + finishIssuing()
+        + cancelAndReissue()
+    }
+}
+ERC20 <-- Token
+@enduml

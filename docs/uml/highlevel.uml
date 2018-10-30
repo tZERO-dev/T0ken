@@ -1,0 +1,33 @@
+@startuml
+database Registry {
+  [Storage]
+  [Custodian]
+  [BrokerDealer]
+  [Investor]
+}
+Storage <-- Custodian
+Storage <-- BrokerDealer
+Storage <-- Investor
+ 
+frame ERC-20 {
+  [Token]
+}
+
+node Compliance {
+  [Rules]
+}
+
+node "Regulatory Rules" {
+  [...]
+  [RegD]
+  [RegS]
+}
+
+[Rules] --> [RegS]
+[Rules] --> [RegD]
+[Rules] --> [...]
+
+Registry <-- Token
+Registry <-- Compliance
+Compliance <-- Token
+@enduml

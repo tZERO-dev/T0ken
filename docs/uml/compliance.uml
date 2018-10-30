@@ -1,0 +1,17 @@
+@startuml
+package Compliance <<Rectangle>> {
+    interface ComplianceRule {
+        + canTransfer()
+    }
+
+    interface Compliance {
+        __ events __
+        {abstract} AddressFrozen()
+        ----
+        + setAddressFrozen()
+        + getRules()
+        + setRules()
+        + canTransfer()
+    }
+}
+@enduml

@@ -1,0 +1,87 @@
+@startuml
+package Registry <<Rectangle>> {
+	interface ICustodian {
+		__ events __
+		{abstract} CustodianAdded()
+		{abstract} CustodianRemoved()
+		{abstract} CustodianFrozen()
+		----
+		+ setStorage()
+		+ add()
+		+ remove()
+		+ setFrozen()
+	}
+
+	interface IBrokerDealer {
+		__ events __
+		{abstract} BrokerDealerAdded()
+		{abstract} BrokerDealerRemoved()
+		{abstract} BrokerDealerFrozen()
+		----
+		+ setStorage()
+		+ add()
+		+ remove()
+		+ addAccount()
+		+ removeAccount()
+		+ setFrozen()
+	}
+
+	interface IInvestor {
+		__ events __
+		{abstract} InvestorAdded()
+		{abstract} InvestorRemoved()
+		{abstract} InvestorFrozen()
+		----
+		+ getHash()
+		+ getAccreditation()
+		+ getCountry()
+
+		+ setStorage()
+		+ add()
+		+ remove()
+		+ setHash()
+		+ setAccreditation()
+		+ setCountry()
+		+ setFrozen()
+	}
+
+	class Custodian {
+		+ store
+	}
+
+	class BrokerDealer {
+		+ store
+	}
+
+	class Investor {
+		+ store
+	}
+
+	class Storage {
+		+ accounts
+		+ data
+		+ permissions
+		----
+		+ accountAt()
+		+ accountGet()
+		+ accountParent()
+		+ accountKind()
+		+ accountFrozen()
+		+ accountIndexOf()
+		+ accountExists()
+		+ permissionAt()
+		+ permissionIndexOf()
+		+ permissionExists()
+		+ addAccount()
+		+ setAccountFrozen()
+		+ removeAccount()
+		+ setAccountData()
+		+ grantPermission()
+		+ revokePermission()
+	}
+}
+
+ICustodian <-- Custodian
+IBrokerDealer <-- BrokerDealer
+IInvestor <-- Investor
+@enduml
