@@ -1,7 +1,10 @@
 <img src="https://storage.googleapis.com/media.tzero.com/t0ken/logo.png" width="400px" />
+
 ---
-<img src="https://storage.googleapis.com/media.tzero.com/t0ken/HoshoSecured_Emblem_Gray.png" height="40px" />
-<img src="https://storage.googleapis.com/media.tzero.com/t0ken/infura_lockup_black.png" height="40px" />
+
+![Hosho](https://storage.googleapis.com/media.tzero.com/t0ken/HoshoSecured_Emblem_Gray.png)
+![Infura](https://storage.googleapis.com/media.tzero.com/t0ken/infura_lockup_black.png)
+
 
 # The Trading Platform
 The trading platform is a regulatory-compliant suite of smart contracts serving as an Alternative Trading Solution (ATS)
