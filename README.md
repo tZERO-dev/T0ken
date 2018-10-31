@@ -1,14 +1,23 @@
-<img src="http://tzero.design/assets/img/logo.png" width="400px" />
+<img src="https://storage.googleapis.com/media.tzero.com/t0ken/logo.png" width="400px" />
+---
+<img src="https://storage.googleapis.com/media.tzero.com/t0ken/HoshoSecured_Emblem_Gray.png" height="40px" />
+<img src="https://storage.googleapis.com/media.tzero.com/t0ken/infura_lockup_black.png" height="40px" />
 
 # The Trading Platform
-The trading platform is a regulatory-compliant suite of smart contracts serving as an Alternative Trading Solution (ATS) that allows trading and fast settlement of securities in t-0 time. Built on the Ethereum chain, the platform provides secure, fault-tolerant, transparent, and fast transaction settlement while being compliant to regulatory requirements.
+The trading platform is a regulatory-compliant suite of smart contracts serving as an Alternative Trading Solution (ATS)
+that allows trading and fast settlement of securities in t-0 time. Built on the Ethereum chain, the platform provides
+secure, fault-tolerant, transparent, and fast transaction settlement while being compliant to regulatory requirements.
 
-The platform provides methods for issuance of security tokens which can be customized to represent various types of securities. The security tokens are [ERC-20][erc-20] compliant and compliant with the Delaware General Corporate Law, [Title 8][Title 8].
+The platform provides methods for issuance of security tokens which can be customized to represent various types of
+securities. The security tokens are [ERC-20][erc-20] compliant and compliant with the Delaware General Corporate Law,
+[Title 8][Title 8].
 
-This project describes the set of Ethereum contracts that represent tZERO's token and trading functionality. See below for instructions and walk-throughs for third-party integration and customization.
+This project describes the set of Ethereum contracts that represent tZERO's token and trading functionality. See below
+for instructions and walk-throughs for third-party integration and customization.
 
 ## Components
-For a token to be tradable, it first has to be defined, created and then be constrained within the set of regulatory rules to ensure compliance with the trading laws for the parties involved (investors, broker-dealers, and custodians).
+For a token to be tradable, it first has to be defined, created and then be constrained within the set of regulatory
+rules to ensure compliance with the trading laws for the parties involved (investors, broker-dealers, and custodians).
 
 ![Detailed Design Diagram][uml-overall]
 
@@ -29,7 +38,8 @@ the behavior of these interacting entities.
 *See the [Registry](docs/design/registry.md) page for in-depth details.*
 
 ### Compliance
-The Compliance is a contract that houses the set of trade rules and exemptions (e.g. [Reg A][reg-a], [Reg D][reg-d], etc.). The compliance rule set allows valid trades and stops the improper trades from taking place.
+The Compliance is a contract that houses the set of trade rules and exemptions (e.g. [Reg A][reg-a], [Reg D][reg-d],
+etc.). The compliance rule set allows valid trades and stops the improper trades from taking place.
 
 *See the [Compliance](docs/design/compliance.md) page for in-depth details.*
 
@@ -46,6 +56,8 @@ v1.0.0
 | RestrictAll     | [0x206616df4c55a7af9395f2d906477f0dbb45369a](https://etherscan.io/address/0x206616df4c55a7af9395f2d906477f0dbb45369a) |
 | T0ken           | [0xc4bf277257c140a799b785c6c5096c6da7ef6a62](https://etherscan.io/address/0xc4bf277257c140a799b785c6c5096c6da7ef6a62) |
 
+<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />
+
 ## Third-Party Integration
 *See the [Third Party Integration](./docs/design/third-party-integration.md) page for in-depth details.*
 
@@ -53,7 +65,10 @@ v1.0.0
 This project is licensed under the [Apache 2.0][apache 2.0] license.
 
 ## Links
-tZERO's website: www.tzero.com
+ - [tZERO's Website](https://www.tzero.com/)
+ - [tZERO T0ken](https://etherscan.io/token/0xc4bf277257c140a799b785c6c5096c6da7ef6a62)
+ - [Hosho's Website](https://hosho.io/)
+ - [Infura's Website](https://infura.io/)
 
 
 [erc-20]: //theethereum.wiki/w/index.php/ERC20_Token_Standard

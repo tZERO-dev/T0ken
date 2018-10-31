@@ -1,7 +1,9 @@
 # The Compliance Contract
-The compliance contract uses compliance rules to regulate the transfer of tokens. The contract maintains and manages the collection of rules which enforce SEC regulations and exemptions (e.g. ([Reg A](reg-a) and [Reg D](reg-d)) during a trade between account types (custodian, broker, custodial-account, or investor).
+The compliance contract uses compliance rules to regulate the transfer of tokens. The contract maintains and manages the
+collection of rules which enforce compliant transfers between account types (custodian, broker, custodial-account, or investor).
 
-Rules are stored within buckets matching the sender's account type, providing flexibility, while preventing unnecessary compliance checks for accounts that do not require it.
+Rules are stored within buckets matching the sender's account type, providing flexibility, while preventing unnecessary
+compliance checks for accounts that do not require it.
 
 ![Compliance Design Diagram][design]
 
