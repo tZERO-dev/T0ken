@@ -1,9 +1,9 @@
-<img src="https://storage.googleapis.com/media.tzero.com/t0ken/logo.png" width="400px" />
+[<img src="https://storage.googleapis.com/media.tzero.com/t0ken/logo.png" width="400px" />](https://www.tzero.com/)
 
 ---
 
-![Hosho](https://storage.googleapis.com/media.tzero.com/t0ken/HoshoSecured_Emblem_Gray.png)
-![Infura](https://storage.googleapis.com/media.tzero.com/t0ken/infura_lockup_black.png)
+[![Hosho](https://storage.googleapis.com/media.tzero.com/t0ken/HoshoSecured_Emblem_Gray.png)](https://hosho.io/)
+[![Infura](https://storage.googleapis.com/media.tzero.com/t0ken/infura_lockup_black.png)](https://infura.io/)
 
 
 # The Trading Platform
@@ -59,7 +59,7 @@ v1.0.0
 | RestrictAll     | [0x206616df4c55a7af9395f2d906477f0dbb45369a](https://etherscan.io/address/0x206616df4c55a7af9395f2d906477f0dbb45369a) |
 | T0ken           | [0xc4bf277257c140a799b785c6c5096c6da7ef6a62](https://etherscan.io/address/0xc4bf277257c140a799b785c6c5096c6da7ef6a62) |
 
-<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />
+[<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />](https://etherscan.io/address/0xc4bf277257c140a799b785c6c5096c6da7ef6a62#)
 
 ## Third-Party Integration
 *See the [Third Party Integration](./docs/design/third-party-integration.md) page for in-depth details.*
