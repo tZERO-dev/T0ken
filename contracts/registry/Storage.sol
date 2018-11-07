@@ -224,7 +224,7 @@ contract Storage is Ownable, LockableDestroyable {
     }
 
     /**
-     *  Returns wether or not the given address exists
+     *  Returns whether or not the given address exists
      *  @param addr The account address
      *  @return If the given address exists
      */
@@ -236,7 +236,7 @@ contract Storage is Ownable, LockableDestroyable {
     }
 
     /**
-     *  Returns wether or not the given address exists for the given kind
+     *  Returns whether or not the given address exists for the given kind
      *  @param addr The account address
      *  @param kind The kind of address
      *  @return If the given address exists with the given kind
@@ -271,7 +271,7 @@ contract Storage is Ownable, LockableDestroyable {
     /**
      *  Gets the index of the permission address for the given type
      *  Returns -1 for missing permission
-     *  @param kind The kind of perission
+     *  @param kind The kind of permission
      *  @param addr The address of the permission to get the index for
      *  @return The index of the given permission address
      */
@@ -283,7 +283,7 @@ contract Storage is Ownable, LockableDestroyable {
     }
 
     /**
-     *  Returns wether or not the given permission address exists for the given type
+     *  Returns whether or not the given permission address exists for the given type
      *  @param kind The kind of permission
      *  @param addr The address to check for permission
      *  @return If the given address has permission or not
