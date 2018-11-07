@@ -157,7 +157,7 @@ contract T0ken is ERC20, Ownable, LockableDestroyable {
         shareholders.append(to);
 
         // Remove the shareholder if they no longer hold tokens.
-        if (balances[msg.sender] == 0) {
+        if (balances[from] == 0) {
             shareholders.remove(from);
         }
 
