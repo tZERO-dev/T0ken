@@ -27,7 +27,6 @@ node "Regulatory Rules" {
 [Rules] --> [RegD]
 [Rules] --> [...]
 
-Registry <-- Token
 Registry <-- Compliance
 Compliance <-- Token
 @enduml
