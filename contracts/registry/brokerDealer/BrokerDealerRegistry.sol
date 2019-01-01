@@ -1,10 +1,9 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
-import 't0ken/libs/lifecycle/LockableDestroyable.sol';
-
-import '../Storage.sol';
-import './IBrokerDealerRegistry.sol';
+import 'tzero/libs/lifecycle/LockableDestroyable.sol';
+import 'tzero/registry/brokerDealer/IBrokerDealerRegistry.sol';
+import 'tzero/registry/Storage.sol';
 
 
 /**

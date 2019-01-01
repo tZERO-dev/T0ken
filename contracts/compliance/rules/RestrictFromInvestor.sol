@@ -1,22 +1,19 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
-import "t0ken/libs/lifecycle/LockableDestroyable.sol";
+import "tzero/compliance/ComplianceRule.sol";
+import "tzero/libs/lifecycle/Destroyable.sol";
 
-import "../ComplianceRule.sol";
 
-
-contract RestrictFromInvestor is ComplianceRule {
+contract RestrictFromInvestor is ComplianceRule, Destroyable {
 
     uint8 INVESTOR = 4;
 
     /**
      *  Blocks when the receiver is an investors.
      */
-    function canTransfer(address from, address to, uint8 toKind, Storage store)
-    external
-    view
-    returns(bool) {
-        return toKind != INVESTOR;
+    function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
+    external {
+        require(toKind != INVESTOR, "The to address cannot be an investor");
     }
 }

@@ -1,19 +1,20 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
-import "t0ken/registry/Storage.sol";
+import "tzero/registry/Storage.sol";
+
 
 interface ComplianceRule {
 
     /**
-     * @param from The address of the sender
-     * @param to The address of the receiver
-     * @param toKind The kind of the to address
-     * @param store The Storage contract
-     * @return true if transfer is allowed
+     *  @dev Checks if a transfer can occur between the from/to addresses and MUST throw when the check fails.
+     *  @param initiator The address initiating the transfer.
+     *  @param from The address of the sender
+     *  @param to The address of the receiver
+     *  @param toKind The kind of the to address
+     *  @param tokens The number of tokens being transferred.
+     *  @param store The Storage contract
      */
-    function canTransfer(address from, address to, uint8 toKind, Storage store)
-    external
-    view
-    returns(bool);
+    function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
+    external;
 }

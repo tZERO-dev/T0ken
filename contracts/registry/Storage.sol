@@ -1,16 +1,17 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
-import '../libs/collections/AccountMap.sol';
-import '../libs/collections/AddressMap.sol';
-import '../libs/lifecycle/LockableDestroyable.sol';
-import '../libs/ownership/Ownable.sol';
+import 'tzero/libs/collections/AccountMap.sol';
+import 'tzero/libs/collections/AddressMap.sol';
+import 'tzero/libs/lifecycle/LockableDestroyable.sol';
+import 'tzero/libs/ownership/Ownable.sol';
 
 
 /**
  *  @title Registry Storage
  */
 contract Storage is Ownable, LockableDestroyable {
+  
     using AccountMap for AccountMap.Data;
     using AddressMap for AddressMap.Data;
 
@@ -90,7 +91,7 @@ contract Storage is Ownable, LockableDestroyable {
     isAllowed(accounts.get(addr).kind)
     external {
         bytes32 ZERO_BYTES = bytes32(0);
-        mapping(uint8 => bytes32) accountData = data[addr];
+        mapping(uint8 => bytes32) storage accountData = data[addr];
 
         // Remove data
         for (uint8 i = 0; i < MAX_DATA; i++) {
@@ -224,7 +225,7 @@ contract Storage is Ownable, LockableDestroyable {
     }
 
     /**
-     *  Returns whether or not the given address exists
+     *  Returns wether or not the given address exists
      *  @param addr The account address
      *  @return If the given address exists
      */
@@ -236,7 +237,7 @@ contract Storage is Ownable, LockableDestroyable {
     }
 
     /**
-     *  Returns whether or not the given address exists for the given kind
+     *  Returns wether or not the given address exists for the given kind
      *  @param addr The account address
      *  @param kind The kind of address
      *  @return If the given address exists with the given kind
@@ -271,7 +272,7 @@ contract Storage is Ownable, LockableDestroyable {
     /**
      *  Gets the index of the permission address for the given type
      *  Returns -1 for missing permission
-     *  @param kind The kind of permission
+     *  @param kind The kind of perission
      *  @param addr The address of the permission to get the index for
      *  @return The index of the given permission address
      */
@@ -283,7 +284,7 @@ contract Storage is Ownable, LockableDestroyable {
     }
 
     /**
-     *  Returns whether or not the given permission address exists for the given type
+     *  Returns wether or not the given permission address exists for the given type
      *  @param kind The kind of permission
      *  @param addr The address to check for permission
      *  @return If the given address has permission or not

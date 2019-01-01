@@ -1,4 +1,4 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
 /**
@@ -109,7 +109,7 @@ library AccountMap {
     function at(Data storage self, int256 index)
     internal
     view
-    returns (Account) {
+    returns (Account memory) {
         require(index >= 0 && index < self.count, "Index outside of bounds.");
         return self.items[index + 1];
     }
@@ -143,7 +143,7 @@ library AccountMap {
     function get(Data storage self, address addr)
     internal
     view
-    returns (Account) {
+    returns (Account memory) {
         return at(self, indexOf(self, addr));
     }
 

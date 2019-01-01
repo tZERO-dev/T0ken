@@ -47,7 +47,7 @@ etc.). The compliance rule set allows valid trades and stops the improper trades
 *See the [Compliance](docs/design/compliance.md) page for in-depth details.*
 
 ### Mainnet
-v1.0.0
+v1.1.0
 
 |  Contract       | Address                                                                                                               |
 |-----------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -55,11 +55,10 @@ v1.0.0
 | Custodian       | [0x2963488e2a140ca324e086ab8f89b5d533f1081d](https://etherscan.io/address/0x2963488e2a140ca324e086ab8f89b5d533f1081d) |
 | Broker          | [0x3ecb8f0d127e22d436b26fccad4f38d7f5b91ee9](https://etherscan.io/address/0x3ecb8f0d127e22d436b26fccad4f38d7f5b91ee9) |
 | Investor        | [0x857f6a42634a14847cc4e0226f36906f0a77cee3](https://etherscan.io/address/0x857f6a42634a14847cc4e0226f36906f0a77cee3) |
-| T0kenCompliance | [0x0e108767f1c207a5a045ac67d488b3447e7e0eae](https://etherscan.io/address/0x0e108767f1c207a5a045ac67d488b3447e7e0eae) |
-| RestrictAll     | [0x206616df4c55a7af9395f2d906477f0dbb45369a](https://etherscan.io/address/0x206616df4c55a7af9395f2d906477f0dbb45369a) |
-| T0ken           | [0xc4bf277257c140a799b785c6c5096c6da7ef6a62](https://etherscan.io/address/0xc4bf277257c140a799b785c6c5096c6da7ef6a62) |
+| T0kenCompliance | [0x7337a2423b982e00c060d90710656714751f068e](https://etherscan.io/address/0x7337a2423b982e00c060d90710656714751f068e) |
+| T0ken           | [0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78](https://etherscan.io/address/0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78) |
 
-[<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />](https://etherscan.io/address/0xc4bf277257c140a799b785c6c5096c6da7ef6a62#)
+[<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />](https://etherscan.io/address/0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78#)
 
 ## Third-Party Integration
 *See the [Third Party Integration](./docs/design/third-party-integration.md) page for in-depth details.*
@@ -69,7 +68,7 @@ This project is licensed under the [Apache 2.0][apache 2.0] license.
 
 ## Links
  - [tZERO's Website](https://www.tzero.com/)
- - [tZERO T0ken](https://etherscan.io/token/0xc4bf277257c140a799b785c6c5096c6da7ef6a62)
+ - [tZERO T0ken](https://etherscan.io/token/0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78)
  - [Hosho's Website](https://hosho.io/)
  - [Infura's Website](https://infura.io/)
 

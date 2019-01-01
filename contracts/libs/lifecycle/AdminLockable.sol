@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import "tzero/libs/ownership/Ownable.sol";
+import "tzero/libs/ownership/Administrable.sol";
 
 
 /**
@@ -10,7 +10,7 @@ import "tzero/libs/ownership/Ownable.sol";
  *  of the account. A modifier is provided that checks the throws when the contract is
  *  in the locked state.
  */
-contract Lockable is Ownable {
+contract AdminLockable is Administrable {
     bool public isLocked;
 
     constructor() public {
@@ -27,7 +27,7 @@ contract Lockable is Ownable {
      *  @param locked The locked state to set the contract to.
      */
     function setLocked(bool locked)
-    onlyOwner
+    onlyAdmins
     external {
         require(isLocked != locked, "Contract already in requested lock state");
 

@@ -1,10 +1,10 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
 /**
  *
  *  @title AddressMap
- *  @dev Map of unique indexed addresseses
+ *  @dev Map of unique indexed addresseses.
  *
  *  **NOTE**
  *    The internal collections are one-based.
@@ -25,7 +25,7 @@ library AddressMap {
     address constant ZERO_ADDRESS = address(0);
 
     /**
-     *  Appends the address to the end of the map, if the addres is not
+     *  Appends the address to the end of the map, if the address is not
      *  zero and the address doesn't currently exist.
      *  @param addr The address to append.
      *  @return true if the address was added.

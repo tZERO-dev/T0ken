@@ -5,13 +5,17 @@ import "tzero/compliance/ComplianceRule.sol";
 import "tzero/libs/lifecycle/Destroyable.sol";
 
 
-contract RestrictAll is ComplianceRule, Destroyable {
+contract RestrictToContract is ComplianceRule, Destroyable {
 
     /**
-     *  Blocks all transfers
+     *  Blocks transfers to contracts
      */
     function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
     external {
-        require(false, "All transfers are currently restricted");
+	  uint32 size;
+	  assembly {
+		size := extcodesize(to)
+	  }
+	  require(size == 0, "Transfers to contracts are not allowed.");
     }
 }

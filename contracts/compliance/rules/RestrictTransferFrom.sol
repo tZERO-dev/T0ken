@@ -5,13 +5,13 @@ import "tzero/compliance/ComplianceRule.sol";
 import "tzero/libs/lifecycle/Destroyable.sol";
 
 
-contract RestrictAll is ComplianceRule, Destroyable {
+contract RestrictTransferFrom is ComplianceRule, Destroyable {
 
     /**
-     *  Blocks all transfers
+     *  Blocks all transfers on behalf of
      */
     function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
     external {
-        require(false, "All transfers are currently restricted");
+        require(initiator == from, "The sending address must be the initiator");
     }
 }

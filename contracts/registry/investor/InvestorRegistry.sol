@@ -1,10 +1,9 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
-import 't0ken/libs/lifecycle/LockableDestroyable.sol';
-
-import '../Storage.sol';
-import './IInvestorRegistry.sol';
+import 'tzero/libs/lifecycle/LockableDestroyable.sol';
+import 'tzero/registry/investor/IInvestorRegistry.sol';
+import 'tzero/registry/Storage.sol';
 
 
 /**
@@ -106,8 +105,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
     function add(address investor, bytes32 hash, bytes2 country, uint48 accreditation)
     onlyBrokerDealer
     external {
-        // Set broker-dealer
-        uint256 data = uint256(country);
+        uint256 data = uint256(uint16(country));
         data |= uint256(accreditation)<<16;
 
         store.addAccount(investor, INVESTOR, false, msg.sender);
@@ -167,7 +165,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
     onlyInvestorsBrokerDealer(investor)
     external {
         uint256 data = uint256(store.data(investor, DATA_INDEX));
-        data = updatedData(data, uint256(country), MASK_CTRY, 0);
+        data = updatedData(data, uint256(uint16(country)), MASK_CTRY, 0);
         store.setAccountData(investor, DATA_INDEX, bytes32(data));
     }
 
@@ -221,7 +219,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
     external
     view
     returns(bytes2) {
-        return bytes2(uint16(store.data(addr, DATA_INDEX)));
+        return bytes2(uint16(uint256(store.data(addr, DATA_INDEX))));
     }
 
     // -------------------------------------------------------------------------

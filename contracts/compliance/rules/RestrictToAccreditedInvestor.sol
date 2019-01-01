@@ -1,25 +1,22 @@
-pragma solidity >=0.4.24 <0.5.0;
+pragma solidity >=0.5.0 <0.6.0;
 
 
-import "t0ken/libs/lifecycle/LockableDestroyable.sol";
+import "tzero/compliance/ComplianceRule.sol";
+import "tzero/libs/lifecycle/Destroyable.sol";
 
-import "../ComplianceRule.sol";
 
-
-contract RestrictToAccreditedInvestor is ComplianceRule {
+contract RestrictToAccreditedInvestor is ComplianceRule, Destroyable {
 
     uint8 constant INVESTOR = 4;
 
     /**
      *  Blocks transfers to an unaccredited investor.
      */
-    function canTransfer(address from, address to, uint8 toKind, Storage store)
-    external
-    view
-    returns(bool) {
-        if (toKind != INVESTOR) {
-            return true;
+    function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
+    external {
+        if (toKind == INVESTOR) {
+            require(uint48(uint256(store.data(to, 1))>>16) > now,
+                    "The to address is not currently accredited");
         }
-        return uint48(uint256(store.data(to, 1))>>16) > now;
     }
 }
