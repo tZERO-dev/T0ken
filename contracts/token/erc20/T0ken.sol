@@ -17,9 +17,9 @@ contract T0ken is ERC20, Ownable, LockableDestroyable {
     using AddressMap for AddressMap.Data;
 
     address constant internal ZERO_ADDRESS = address(0);
-    string public constant name = "TZERO PREFERRED";
-    string public constant symbol = "TZROP";
-    uint8 public constant decimals = 0;
+    string public name;
+    string public symbol;
+    uint8 public decimals;
 
     AddressMap.Data public shareholders;
     Compliance public compliance;
@@ -74,6 +74,13 @@ contract T0ken is ERC20, Ownable, LockableDestroyable {
     event ShareholderRemoved(address shareholder);
 
     // -------------------------------------------------------------------------
+
+    constructor(string memory tokenName, string memory tokenSymbol, uint8 tokenDecimals)
+    public {
+        name = tokenName;
+        symbol = tokenSymbol;
+        decimals = tokenDecimals;
+    }
 
     /**
      *  @dev Transfers tokens to the whitelisted account.
