@@ -63,6 +63,21 @@ v1.1.0
 ## Third-Party Integration
 *See the [Third Party Integration](./docs/design/third-party-integration.md) page for in-depth details.*
 
+## Developer
+
+This repo contains only the Solidity contracts, all other files _(including tests, tools, etc.)_ have been excluded for now.  
+We'll be providing all other files in the future, but for now this allows anyone to use the contracts in Truffle, ZeppelinOS, etc.
+
+We have included a `Makefile` if you just want to compile the contracts for ABI/Bin:
+
+To build, simply run:
+
+```
+% make
+```
+
+This will create the `build/` folder with all ABI/Bin files, along with a `contracts.js` that can be used within a Geth session.
+
 ## License
 This project is licensed under the [Apache 2.0][apache 2.0] license.
 
