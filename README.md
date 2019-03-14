@@ -56,9 +56,9 @@ v1.1.0
 | Broker          | [0x3ecb8f0d127e22d436b26fccad4f38d7f5b91ee9](https://etherscan.io/address/0x3ecb8f0d127e22d436b26fccad4f38d7f5b91ee9) |
 | Investor        | [0x857f6a42634a14847cc4e0226f36906f0a77cee3](https://etherscan.io/address/0x857f6a42634a14847cc4e0226f36906f0a77cee3) |
 | T0kenCompliance | [0x7337a2423b982e00c060d90710656714751f068e](https://etherscan.io/address/0x7337a2423b982e00c060d90710656714751f068e) |
-| T0ken           | [0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78](https://etherscan.io/address/0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78) |
+| T0ken           | [0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78](https://etherscan.io/token/0x5bd5b4e1a2c9b12812795e7217201b78c8c10b78) |
 
-[<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />](https://etherscan.io/address/0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78#)
+[<img src="https://storage.googleapis.com/media.tzero.com/t0ken/t0ken.png" />](https://etherscan.io/token/0x5bd5b4e1a2c9b12812795e7217201b78c8c10b78)
 
 ## Third-Party Integration
 *See the [Third Party Integration](./docs/design/third-party-integration.md) page for in-depth details.*
