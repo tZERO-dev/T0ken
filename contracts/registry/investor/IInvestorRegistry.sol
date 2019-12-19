@@ -1,9 +1,6 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import 'tzero/registry/Storage.sol';
-
-
 /**
  *  @title Investor Registry Interface
  */
@@ -15,6 +12,16 @@ interface IInvestorRegistry {
      *  @param owner The address that caused the investor to be added
      */
     event InvestorAdded(
+        address indexed investor,
+        address indexed owner
+    );
+
+    /**
+     *  This event is emitted when a investor's data has been updated.
+     *  @param investor The investor that has been updated.
+     *  @param owner The address that caused the investor to be added
+     */
+    event InvestorUpdated(
         address indexed investor,
         address indexed owner
     );
@@ -70,13 +77,6 @@ interface IInvestorRegistry {
     external
     view
     returns(bytes2);
-
-    /**
-     *  Sets the storage contract address
-     *  @param s The Storage contract to use
-     */
-    function setStorage(Storage s)
-    external;
 
     /**
      *  Adds a verified investor to the registry

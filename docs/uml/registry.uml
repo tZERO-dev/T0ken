@@ -1,24 +1,91 @@
 @startuml
+' ##################### Styles #####################
+skinparam shadowing false
+skinparam package {
+  borderColor #00CE7D
+  fontColor #00CE7D
+}
+skinparam interface {
+  arrowColor #00CE7D
+  backgroundColor #C7F9E6
+  borderColor #00CE7D
+  fontSize 15
+}
+skinparam CircledCharacter {
+  fontColor #00CE7D
+}
+skinparam class {
+  arrowColor #00CE7D
+  headerBackgroundColor #C7F9E6
+  backgroundColor white
+  borderColor #00CE7D
+  fontSize 15
+  fontColor #00CE7D
+  attributeFontColor #00CE7D
+}
+skinparam component {
+  backgroundColor white
+  borderColor white
+  arrowColor #00CE7D
+  fontColor #00CE7D
+  fontSize 14
+}
+' ##################################################
+
 package Registry <<Rectangle>> {
-	interface ICustodian {
+	interface IRegistry << (I,white) >> {
+		+ accounts()
+		+ data()
+		+ hashes()
+		+ permissions()
+		+ addAccount()
+		+ setAccountFrozen()
+		+ setAccountParent()
+		+ setAccountHash()
+		+ removeAccount()
+		+ setAccountData()
+		+ setPermission()
+		+ accountAt()
+		+ accountAtHash()
+		+ addressAtHash()
+		+ accountGet()
+		+ accountHash()
+		+ accountParent()
+		+ accountKind()
+		+ accountFrozen()
+		+ accountKindAndFrozen()
+		+ accountKindAndFrozenAddress()
+		+ accountKindAndFrozenAddressLineage()
+		+ accountLineage()
+		+ accountIndexOf()
+		+ accountExists()
+		+ accountKindExists()
+		+ permissionAt()
+		+ permissionIndexOf()
+		+ permissionExists()
+		# accountLineage()
+		# lineageAcount()
+	}
+
+	interface ICustodian << (I,white) >> {
 		__ events __
 		{abstract} CustodianAdded()
 		{abstract} CustodianRemoved()
 		{abstract} CustodianFrozen()
 		----
-		+ setStorage()
+		+ setRegistry()
 		+ add()
 		+ remove()
 		+ setFrozen()
 	}
 
-	interface IBrokerDealer {
+	interface IBrokerDealer << (I,white) >> {
 		__ events __
 		{abstract} BrokerDealerAdded()
 		{abstract} BrokerDealerRemoved()
 		{abstract} BrokerDealerFrozen()
 		----
-		+ setStorage()
+		+ setRegistry()
 		+ add()
 		+ remove()
 		+ addAccount()
@@ -26,7 +93,7 @@ package Registry <<Rectangle>> {
 		+ setFrozen()
 	}
 
-	interface IInvestor {
+	interface IInvestor << (I,white) >> {
 		__ events __
 		{abstract} InvestorAdded()
 		{abstract} InvestorRemoved()
@@ -36,7 +103,7 @@ package Registry <<Rectangle>> {
 		+ getAccreditation()
 		+ getCountry()
 
-		+ setStorage()
+		+ setRegistry()
 		+ add()
 		+ remove()
 		+ setHash()
@@ -45,19 +112,19 @@ package Registry <<Rectangle>> {
 		+ setFrozen()
 	}
 
-	class Custodian {
+	class Custodian << (C,white) >> {
 		+ store
 	}
 
-	class BrokerDealer {
+	class BrokerDealer << (C,white) >> {
 		+ store
 	}
 
-	class Investor {
+	class Investor << (C,white) >> {
 		+ store
 	}
 
-	class Storage {
+	class Registry << (C,white) >> {
 		+ accounts
 		+ data
 		+ permissions

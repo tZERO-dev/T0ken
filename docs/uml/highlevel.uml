@@ -1,32 +1,69 @@
 @startuml
-database Registry {
-  [Storage]
+' ##################### Styles #####################
+skinparam shadowing false
+skinparam node {
+  backgroundColor #D9F8EC
+  borderColor #00CE7D
+  fontSize 15
+  fontColor #00CE7D
+}
+skinparam database {
+  backgroundColor #C7F9E6
+  borderColor #00CE7D
+  fontSize 15
+  fontColor #00CE7D
+}
+skinparam frame {
+  backgroundColor #c7f9e6
+  borderColor #00CE7D
+  fontSize 15
+  fontColor #00CE7D
+}
+skinparam component {
+  backgroundColor white
+  borderColor white
+  arrowColor #00CE7D
+  fontColor #00CE7D
+  fontSize 14
+}
+' ##################################################
+
+
+' ### Registry
+database R as "Registry" {
+  [Registry]
   [Custodian]
   [BrokerDealer]
   [Investor]
 }
-Storage <-- Custodian
-Storage <-- BrokerDealer
-Storage <-- Investor
- 
-frame ERC-20 {
-  [Token]
-}
+Registry <-- Custodian
+Registry <-- BrokerDealer
+Registry <-- Investor
 
-node Compliance {
-  [Rules]
-}
-
-node "Regulatory Rules" {
+' ### Rules
+node "Rules" {
   [...]
   [RegD]
   [RegS]
 }
-
 [Rules] --> [RegS]
 [Rules] --> [RegD]
 [Rules] --> [...]
 
+' ### Compliance
+node C as "Compliance" {
+  [Storage]
+  [Compliance]
+  '[Rules]
+}
 Registry <-- Compliance
+Storage <-- Compliance
+Storage <-- Rules
+Rules <-- Compliance
+
+' ### Token
+frame ERC-20 {
+  [Token]
+}
 Compliance <-- Token
 @enduml

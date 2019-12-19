@@ -5,15 +5,12 @@ import "../ComplianceRule.sol";
 import "../../libs/lifecycle/Destroyable.sol";
 
 
-contract RestrictFromInvestor is ComplianceRule, Destroyable {
+contract RestrictFromAdvisor is ComplianceRule, Destroyable {
 
-    uint8 INVESTOR = 4;
-    uint8 EXTERNAL_INVESTOR = 5;
-
-    string public name = "Restrict From Investor";
+    string public name = "Restrict From Advisor";
 
     /**
-     *  Blocks when the receiver is an investor.
+     *  Blocks the transfer when the sender is an advisor
      *  @param token The token contract
      *  @param initiator The address initiating the transfer
      *  @param from The address of the sender
@@ -22,8 +19,8 @@ contract RestrictFromInvestor is ComplianceRule, Destroyable {
      */
     function check(IT0ken token, address initiator, address from, address to, uint256 tokens)
     external {
-        uint8 toKind = registry().accountKind(to);
-        require(toKind != INVESTOR && toKind != EXTERNAL_INVESTOR, "The to address cannot be an investor");
+        bytes32 key = keccak256(abi.encodePacked("RestrictFromAdvisor.isAdvisor", token.symbol(), from));
+        require(complianceStore().getBool(key) == false, "Transfers from advisors are restricted");
     }
 
     /**
@@ -40,9 +37,9 @@ contract RestrictFromInvestor is ComplianceRule, Destroyable {
     external
     view
     returns (string memory s) {
-        uint8 toKind = compliance.registry().accountKind(to);
-        if (!(toKind != INVESTOR && toKind != EXTERNAL_INVESTOR)) {
-            s = "The 'to' address cannot be an investor";
+        bytes32 key = keccak256(abi.encodePacked("RestrictFromAdvisor.isAdvisor", token.symbol(), from));
+        if (!(compliance.store().getBool(key) == false)) {
+            s = "Transfers from advisors are restricted";
         }
     }
 }

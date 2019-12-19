@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import 'tzero/registry/Storage.sol';
+import '../Registry.sol';
 
 
 /**
@@ -42,19 +42,13 @@ interface ICustodianRegistry {
     );
 
     /**
-     *  Sets the storage contract address
-     *  @param s The Storage contract to use
-     */
-    function setStorage(Storage s)
-    external;
-
-    /**
      *  Adds a custodian to the registry
      *  Upon successful addition, the contract must emit `CustodianAdded(custodian)`
      *  THROWS if the address has already been added, or is zero
      *  @param custodian The address of the custodian
+     *  @param hash The hash that uniquely identifies the broker
      */
-    function add(address custodian)
+    function add(address custodian, bytes32 hash)
     external;
 
     /**

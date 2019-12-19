@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import 'tzero/registry/Storage.sol';
+import '../Registry.sol';
 
 
 /**
@@ -42,19 +42,13 @@ interface IBrokerDealerRegistry {
     );
 
     /**
-     *  Sets the storage contract address
-     *  @param s The Storage contract to use
-     */
-    function setStorage(Storage s)
-    external;
-
-    /**
      *  Adds a brokerDealer to the registry
      *  Upon successful addition, the contract must emit `BrokerDealerAdded(brokerDealer)`
      *  THROWS if the address has already been added, or is zero
      *  @param brokerDealer The address of the broker-dealer
+     *  @param hash The hash that uniquely identifies the broker
      */
-    function add(address brokerDealer)
+    function add(address brokerDealer, bytes32 hash)
     external;
 
     /**

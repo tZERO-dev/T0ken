@@ -1,9 +1,9 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import 'tzero/libs/lifecycle/LockableDestroyable.sol';
-import 'tzero/registry/custodian/ICustodianRegistry.sol';
-import 'tzero/registry/Storage.sol';
+import '../../libs/lifecycle/LockableDestroyable.sol';
+import '../IRegistry.sol';
+import './ICustodianRegistry.sol';
 
 
 /**
@@ -11,25 +11,31 @@ import 'tzero/registry/Storage.sol';
  *
  */
 contract CustodianRegistry is ICustodianRegistry, LockableDestroyable {
-    Storage public store;
+    IRegistry public registry;
 
-    uint8 constant private CUSTODIAN = 1; // Storage, custodian kind
+    uint8 constant private CUSTODIAN = 1; // Registry, custodian kind
 
     // ------------------------------- Modifiers -------------------------------
     modifier isAllowed() {
-        require(store.permissionExists(CUSTODIAN, msg.sender), "Missing permission");
+        require(registry.permissionExists(CUSTODIAN, msg.sender), "Missing permission");
         _;
     }
 
     // -------------------------------------------------------------------------
+
+    constructor(IRegistry r)
+    public {
+        registry = r;
+    }
+
     /**
-     *  Sets the storage contract address
-     *  @param s The Storage contract to use
+     *  Sets the registry contract address
+     *  @param r The registry contract to use
      */
-    function setStorage(Storage s)
+    function setRegistry(IRegistry r)
     onlyOwner
     external {
-        store = s;
+        registry = r;
     }
 
     /**
@@ -37,11 +43,12 @@ contract CustodianRegistry is ICustodianRegistry, LockableDestroyable {
      *  Upon successful addition, the contract must emit `CustodianAdded(custodian)`
      *  THROWS if the address has already been added, or is zero
      *  @param custodian The address of the custodian
+     *  @param hash The hash that uniquely identifies the broker
      */
-    function add(address custodian)
+    function add(address custodian, bytes32 hash)
     isAllowed
     external {
-        store.addAccount(custodian, CUSTODIAN, false, msg.sender);
+        registry.addAccount(custodian, CUSTODIAN, false, address(0), hash);
 
         emit CustodianAdded(custodian, msg.sender);
     }
@@ -55,7 +62,7 @@ contract CustodianRegistry is ICustodianRegistry, LockableDestroyable {
     function remove(address custodian)
     isAllowed
     external {
-        store.removeAccount(custodian);
+        registry.removeAccount(custodian);
 
         emit CustodianRemoved(custodian, msg.sender);
     }
@@ -69,7 +76,7 @@ contract CustodianRegistry is ICustodianRegistry, LockableDestroyable {
     function setFrozen(address custodian, bool frozen)
     isAllowed
     external {
-        store.setAccountFrozen(custodian, frozen);
+        registry.setAccountFrozen(custodian, frozen);
 
         emit CustodianFrozen(custodian, frozen, msg.sender);
     }

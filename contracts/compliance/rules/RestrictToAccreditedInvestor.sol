@@ -1,22 +1,50 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import "tzero/compliance/ComplianceRule.sol";
-import "tzero/libs/lifecycle/Destroyable.sol";
+import "../../libs/lifecycle/Destroyable.sol";
+import "../../libs/registry/InvestorData.sol";
+import "../ComplianceRule.sol";
 
 
 contract RestrictToAccreditedInvestor is ComplianceRule, Destroyable {
+    using InvestorData for IRegistry;
 
     uint8 constant INVESTOR = 4;
 
+    string public name = "Restrict To Accredited Investor";
+
     /**
-     *  Blocks transfers to an unaccredited investor.
+     *  Blocks the transfer when the recipient is unaccredited
+     *  @param token The token contract
+     *  @param initiator The address initiating the transfer
+     *  @param from The address of the sender
+     *  @param to The address of the receiver
+     *  @param tokens The number of tokens being transferred
      */
-    function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
+    function check(IT0ken token, address initiator, address from, address to, uint256 tokens)
     external {
-        if (toKind == INVESTOR) {
-            require(uint48(uint256(store.data(to, 1))>>16) > now,
-                    "The to address is not currently accredited");
+        if (registry().accountKind(to) == INVESTOR) {
+            require(registry().isAccredited(to), "The to address is not currently accredited");
+        }
+    }
+
+    /**
+     *  Tests if a transfer can occur between the from/to addresses and returns an error string when it would fail
+     *  @param compliance The Compliance address
+     *  @param token The address of the token that triggered the check
+     *  @param initiator The address initiating the transfer
+     *  @param from The address of the sender
+     *  @param to The address of the receiver
+     *  @param tokens The number of tokens being transferred
+     *  @return The error message
+     */
+    function test(ICompliance compliance, IT0ken token, address initiator, address from, address to, uint256 tokens)
+    external
+    view
+    returns (string memory s) {
+        IRegistry r = compliance.registry();
+        if (r.accountKind(to) == INVESTOR && r.isAccredited(to) == false) {
+            s = "The 'to' address is not currently accredited";
         }
     }
 }

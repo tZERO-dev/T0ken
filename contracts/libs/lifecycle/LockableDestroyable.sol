@@ -1,8 +1,8 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import "tzero/libs/lifecycle/Destroyable.sol";
-import "tzero/libs/lifecycle/Lockable.sol";
+import "./Destroyable.sol";
+import "./Lockable.sol";
 
 
 /**
