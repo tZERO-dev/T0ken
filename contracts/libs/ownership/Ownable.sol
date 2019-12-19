@@ -8,6 +8,8 @@ pragma solidity >=0.5.0 <0.6.0;
 contract Ownable {
     address payable public owner;
 
+    address public ZERO_ADDRESS = address(0);
+
     event OwnerTransferred(
         address indexed oldOwner,
         address indexed newOwner
@@ -17,13 +19,16 @@ contract Ownable {
         owner = msg.sender;
     }
 
+    // Note: Do we need to be concerned with someone setting owner of a clone contract before we can?
+    // Checks that msg.sender is the owner OR that owner is a ZER_ADDRESS (no contract owner)
     modifier onlyOwner() {
-        require(msg.sender == owner, "Owner account is required");
+        require(msg.sender == owner || owner == ZERO_ADDRESS, "Owner account is required");
         _;
     }
 
+
     /**
-     * @dev Allows the current owner to transfer control of the contract to newOwner.
+     * Allows the current owner to transfer control of the contract to newOwner.
      * @param newOwner The address to transfer ownership to.
      */
     function transferOwner(address payable newOwner)

@@ -1,8 +1,8 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import "tzero/libs/collections/AddressMap.sol";
-import "tzero/libs/ownership/Ownable.sol";
+import "../collections/AddressMap.sol";
+import "./Ownable.sol";
 
 
 /**
@@ -25,7 +25,7 @@ contract Administrable is Ownable {
 
 
     /**
-     * @dev Returns if the address is an admin.
+     * Returns if the address is an admin.
      * @param addr The address to check.
      * @return Whether or not the address is an admin.
      */
@@ -37,24 +37,33 @@ contract Administrable is Ownable {
     }
 
     /**
-     * @dev Adds address to list of admins.
-     * @param admin The address to add.
+     *  Retrieves the admin at the given index.
+     *  THROWS when the index is invalid.
+     *  @param index The index of the item to retrieve.
+     *  @return The admin address of the item at the given index.
      */
-    function addAdmin(address admin)
+    function adminAt(int256 index)
     public
-    onlyOwner {
-        require(admins.append(admin), "Unable to add admin");
-        emit AdminAdded(admin);
+    view
+    returns (address) {
+        return admins.at(index);
     }
 
     /**
-     * @dev Removes address from list of admins.
-     * @param admin The address to remove.
+     *  Adds/Removes the addr as an admin
+     *  @param addr The admin address to add/remove
+     *  @param add Whether the address should be added/removed
      */
-    function removeAdmin(address admin)
+    function setAdmin(address addr, bool add)
     public
     onlyOwner {
-        require(admins.remove(admin), "Unable to remove admin");
-        emit AdminRemoved(admin);
+        if (add) {
+            require(admins.append(addr), "Unable to add admin");
+            emit AdminAdded(addr);
+        } else {
+            require(admins.remove(addr), "Unable to remove admin");
+            emit AdminRemoved(addr);
+        }
     }
+
 }

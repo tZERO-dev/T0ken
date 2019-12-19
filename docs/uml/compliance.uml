@@ -1,17 +1,126 @@
 @startuml
+' ##################### Styles #####################
+skinparam shadowing false
+skinparam package {
+  borderColor #00CE7D
+  fontColor #00CE7D
+}
+skinparam interface {
+  arrowColor #00CE7D
+  backgroundColor #c7f9e6
+  borderColor #00CE7D
+  fontSize 15
+}
+skinparam CircledCharacter {
+  fontColor #00CE7D
+}
+skinparam class {
+  arrowColor #00CE7D
+  headerBackgroundColor #C7F9E6
+  backgroundColor white
+  borderColor #00CE7D
+  fontSize 15
+  fontColor #00CE7D
+  attributeFontColor #00CE7D
+}
+skinparam component {
+  backgroundColor white
+  borderColor white
+  arrowColor #00CE7D
+  fontColor #00CE7D
+  fontSize 14
+}
+' ##################################################
+
+
+
 package Compliance <<Rectangle>> {
-    interface ComplianceRule {
-        + canTransfer()
+	interface IComplianceRule << (I,white) >> {
+		+ registry()
+		+ complianceStore()
+		+ name()
+		+ check()
+		+ test()
+	}
+
+    interface ICompliance << (I,white) >> {
+		+ registry()
+		+ store()
+		+ setRules()
+		+ getRules()
+		+ canIssue()
+		+ canTransfer()
+		+ canOverride()
+	}
+
+	interface IComplianceStorage << (I,white) >> {
+		+ permissions()
+		+ setPermission()
+		+ permissionAt()
+		+ permissionIndexOf()
+		+ permissionExists()
+
+		+ getAddresses()
+		+ getAddress()
+		+ setAddress()
+		+ deleteAddress()
+
+		+ getBools()
+		+ getBool()
+		+ setBool()
+		+ deleteBool()
+
+		+ getBytes()
+		+ getByte()
+		+ setByte()
+		+ deleteByte()
+
+		+ getBytes32s()
+		+ getbytes32()
+		+ setBytes32()
+		+ deleteBytes32()
+
+		+ getString()
+		+ setString()
+		+ deleteString()
+
+		+ getInt256s()
+		+ getInt256()
+		+ setInt256()
+		+ deleteInt256()
+
+		+ getUint256s()
+		+ getUint256()
+		+ setUint256()
+		+ deleteUint256()
+	}
+
+    class Compliance << (C,white) >> {
+		- RULES_KEY
+		+ registry
+		+ store
+
+		+ canTransferTest()
+		- freezeCheck()
+		- checkRules()
+		- testRules()
     }
 
-    interface Compliance {
-        __ events __
-        {abstract} AddressFrozen()
-        ----
-        + setAddressFrozen()
-        + getRules()
-        + setRules()
-        + canTransfer()
-    }
+	class ComplianceRule << (C,white) >> {
+	}
+
+	class ComplianceStorage << (C,white) >> {
+		+ getAddress
+		+ getBool
+		+ getBytes32
+		+ getBytes
+		+ getInt256
+		+ getString
+		+ getUint256
+	}
 }
+
+IComplianceStorage <--- ComplianceStorage
+IComplianceRule <--- ComplianceRule
+ICompliance <--- Compliance
 @enduml

@@ -1,9 +1,9 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import 'tzero/libs/lifecycle/LockableDestroyable.sol';
-import 'tzero/registry/brokerDealer/IBrokerDealerRegistry.sol';
-import 'tzero/registry/Storage.sol';
+import '../../libs/lifecycle/LockableDestroyable.sol';
+import '../IRegistry.sol';
+import './IBrokerDealerRegistry.sol';
 
 
 /**
@@ -11,49 +11,55 @@ import 'tzero/registry/Storage.sol';
  *
  */
 contract BrokerDealerRegistry is IBrokerDealerRegistry, LockableDestroyable {
-    Storage public store;
+    IRegistry public registry;
 
-    uint8 constant private CUSTODIAN = 1;         // Storage, custodian kind
-    uint8 constant private CUSTODIAL_ACCOUNT = 2; // Storage, custodian kind
-    uint8 constant private BROKER_DEALER = 3;     // Storage, broker-dealer kind
+    uint8 constant private CUSTODIAN = 1;         // Registry, custodian kind
+    uint8 constant private CUSTODIAL_ACCOUNT = 2; // Registry, custodian kind
+    uint8 constant private BROKER_DEALER = 3;     // Registry, broker-dealer kind
 
     // ------------------------------- Modifiers -------------------------------
     modifier onlyCustodian() {
-        require(store.accountExists(msg.sender, CUSTODIAN), "Custodian address required");
-        require(!store.accountFrozen(msg.sender), "Custodian is frozen");
+        require(registry.accountKindExists(msg.sender, CUSTODIAN), "Custodian address required");
+        require(!registry.accountFrozen(msg.sender), "Custodian is frozen");
         _;
     }
 
     modifier onlyNewAccount(address account) {
-        require(!store.accountExists(account), "Account already exists");
+        require(!registry.accountExists(account), "Account already exists");
         _;
     }
 
     modifier onlyBrokerDealersCustodian(address brokerDealer) {
-        require(store.accountExists(msg.sender, CUSTODIAN), "Custodian required");
-        require(msg.sender == store.accountParent(brokerDealer), "Broker-Dealer's custodian required");
-        require(!store.accountFrozen(msg.sender), "Custodian is frozen");
+        require(registry.accountKindExists(msg.sender, CUSTODIAN), "Custodian required");
+        require(msg.sender == registry.accountParent(brokerDealer), "Broker-Dealer's custodian required");
+        require(!registry.accountFrozen(msg.sender), "Custodian is frozen");
         _;
     }
 
     modifier onlyAccountsCustodian(address account) {
-        require(store.accountExists(account, CUSTODIAL_ACCOUNT), "Not a custodial account");
-        address broker = store.accountParent(account);
-        require(msg.sender == store.accountParent(broker), "Account's custodian requried");
-        require(!store.accountFrozen(msg.sender), "Custodian is frozen");
+        require(registry.accountKindExists(account, CUSTODIAL_ACCOUNT), "Not a custodial account");
+        address broker = registry.accountParent(account);
+        require(msg.sender == registry.accountParent(broker), "Account's custodian requried");
+        require(!registry.accountFrozen(msg.sender), "Custodian is frozen");
         _;
     }
 
 
     // -------------------------------------------------------------------------
+
+    constructor(IRegistry r)
+    public {
+        registry = r;
+    }
+
     /**
-     *  Sets the storage contract address
-     *  @param s The Storage contract to use
+     *  Sets the registry contract address
+     *  @param r The registry contract to use
      */
-    function setStorage(Storage s)
+    function setRegistry(IRegistry r)
     onlyOwner
     external {
-        store = s;
+        registry = r;
     }
 
     /**
@@ -61,11 +67,12 @@ contract BrokerDealerRegistry is IBrokerDealerRegistry, LockableDestroyable {
      *  Upon successful addition, the contract must emit `BrokerDealerAdded(brokerDealer)`
      *  THROWS if the address has already been added, or is zero
      *  @param brokerDealer The address of the broker-dealer
+     *  @param hash The hash that uniquely identifies the broker
      */
-    function add(address brokerDealer)
+    function add(address brokerDealer, bytes32 hash)
     onlyCustodian
     external {
-        store.addAccount(brokerDealer, BROKER_DEALER, false, msg.sender);
+        registry.addAccount(brokerDealer, BROKER_DEALER, false, msg.sender, hash);
 
         emit BrokerDealerAdded(brokerDealer, msg.sender);
     }
@@ -79,7 +86,7 @@ contract BrokerDealerRegistry is IBrokerDealerRegistry, LockableDestroyable {
     function remove(address brokerDealer)
     onlyBrokerDealersCustodian(brokerDealer)
     external {
-        store.removeAccount(brokerDealer);
+        registry.removeAccount(brokerDealer);
 
         emit BrokerDealerRemoved(brokerDealer, msg.sender);
     }
@@ -93,7 +100,8 @@ contract BrokerDealerRegistry is IBrokerDealerRegistry, LockableDestroyable {
     onlyNewAccount(account)
     onlyBrokerDealersCustodian(brokerDealer)
     external {
-        store.addAccount(account, CUSTODIAL_ACCOUNT, false, brokerDealer);
+        bytes32 hash = registry.accountHash(brokerDealer);
+        registry.addAccount(account, CUSTODIAL_ACCOUNT, false, brokerDealer, hash);
     }
 
     /**
@@ -103,7 +111,7 @@ contract BrokerDealerRegistry is IBrokerDealerRegistry, LockableDestroyable {
     function removeAccount(address account)
     onlyAccountsCustodian(account)
     external {
-        store.removeAccount(account);
+        registry.removeAccount(account);
     }
 
     /**
@@ -115,7 +123,7 @@ contract BrokerDealerRegistry is IBrokerDealerRegistry, LockableDestroyable {
     function setFrozen(address brokerDealer, bool frozen)
     onlyBrokerDealersCustodian(brokerDealer)
     external {
-        store.setAccountFrozen(brokerDealer, true);
+        registry.setAccountFrozen(brokerDealer, frozen);
 
         emit BrokerDealerFrozen(brokerDealer, frozen, msg.sender);
     }

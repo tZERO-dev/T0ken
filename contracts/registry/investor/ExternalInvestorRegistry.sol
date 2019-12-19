@@ -2,51 +2,24 @@ pragma solidity >=0.5.0 <0.6.0;
 
 
 import '../../libs/lifecycle/LockableDestroyable.sol';
+import '../../libs/ownership/Administrable.sol';
 import '../../libs/registry/InvestorData.sol';
-import '../Registry.sol';
+import '../IRegistry.sol';
 import './IInvestorRegistry.sol';
 
 
 /**
- *  @title Investor Registry
+ *  @title External Investor Registry
  *
  */
-contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
+contract ExternalInvestorRegistry is IInvestorRegistry, Administrable, LockableDestroyable {
     using InvestorData for IRegistry;
 
     IRegistry public registry;
 
-    uint8 constant private BROKER_DEALER = 3; // Registry, broker-dealer kind
-    uint8 constant private INVESTOR = 4;      // Registry, investor kind
+    uint8 constant private EXTERNAL_INVESTOR = 5;  // Registry, external investor kind
+    address constant private ZERO_ADDRESS = address(0);
 
-    
-    // ------------------------------- Modifiers -------------------------------
-    modifier onlyBrokerDealer() {
-        require(registry.accountKindExists(msg.sender, BROKER_DEALER), "Broker-dealer required");
-        require(!registry.accountFrozen(msg.sender), "Broker-dealer is frozen");
-        require(!registry.accountFrozen(registry.accountParent(msg.sender)), "Custodian is frozen");
-        _;
-    }
-
-    modifier onlyInvestorsBrokerDealer(address investor) {
-        require(registry.accountKindExists(msg.sender, BROKER_DEALER), "Broker-Dealer required");
-        require(msg.sender == registry.accountParent(investor), "Investor's broker-dealer required");
-        require(!registry.accountFrozen(msg.sender), "Broker-dealer is frozen");
-        require(!registry.accountFrozen(registry.accountParent(msg.sender)), "Custodian is frozen");
-        _;
-    }
-
-    modifier onlyInvestorsBrokerDealerOrCustodian(address investor) {
-        address broker = registry.accountParent(investor);
-        address custodian = registry.accountParent(broker);
-
-        require(msg.sender == broker || msg.sender == custodian, "Broker-Dealer or Custodian required");
-        require(!registry.accountFrozen(custodian), "Custodian is frozen");
-        if (msg.sender == broker) {
-            require(!registry.accountFrozen(broker), "Broker-Dealer is frozen");
-        }
-        _;
-    }
 
     // -------------------------------------------------------------------------
 
@@ -57,7 +30,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
 
     /**
      *  Sets the registry contract address
-     *  @param r The registry contract to use
+     *  @param r The Registry contract to use
      */
     function setRegistry(IRegistry r)
     onlyOwner
@@ -75,9 +48,9 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
      *  @param accreditation The accreditation date of the investor
      */
     function add(address investor, bytes32 hash, bytes2 country, uint48 accreditation)
-    onlyBrokerDealer
+    onlyAdmins
     external {
-        registry.addAccount(investor, INVESTOR, false, msg.sender, hash);
+        registry.addAccount(investor, EXTERNAL_INVESTOR, false, msg.sender, hash);
         registry.setData(investor, accreditation, country);
 
         emit InvestorAdded(investor, msg.sender);
@@ -90,9 +63,10 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
      *  @param investor The address of the investor
      */
     function remove(address investor)
-    onlyInvestorsBrokerDealer(investor)
+    onlyAdmins
     external {
         registry.removeAccount(investor);
+
         emit InvestorRemoved(investor, msg.sender);
     }
 
@@ -103,7 +77,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
      *  @param hash The PII hash of the investor
      */
     function setHash(address investor, bytes32 hash)
-    onlyInvestorsBrokerDealer(investor)
+    onlyAdmins
     external {
         registry.setAccountHash(investor, hash);
         emit InvestorUpdated(investor, msg.sender);
@@ -116,7 +90,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
      *  @param accreditation The date of accreditation
      */
     function setAccreditation(address investor, uint48 accreditation)
-    onlyInvestorsBrokerDealer(investor)
+    onlyAdmins
     external {
         registry.setAccreditation(investor, accreditation);
         emit InvestorUpdated(investor, msg.sender);
@@ -129,7 +103,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
      *  @param country The investor's 2 character country code
      */
     function setCountry(address investor, bytes2 country)
-    onlyInvestorsBrokerDealer(investor)
+    onlyAdmins
     external {
         registry.setCountry(investor, country);
         emit InvestorUpdated(investor, msg.sender);
@@ -142,7 +116,7 @@ contract InvestorRegistry is IInvestorRegistry, LockableDestroyable {
      *  @param frozen Whether or not the custodian is frozen
      */
     function setFrozen(address investor, bool frozen)
-    onlyInvestorsBrokerDealerOrCustodian(investor)
+    onlyAdmins
     external {
         registry.setAccountFrozen(investor, frozen);
         emit InvestorFrozen(investor, frozen, msg.sender);

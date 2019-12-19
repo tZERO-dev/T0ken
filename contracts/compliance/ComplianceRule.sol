@@ -1,20 +1,42 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 
-import "tzero/registry/Storage.sol";
+import "../registry/IRegistry.sol";
+import "../token/IT0ken.sol";
+import "./ICompliance.sol";
+import "./IComplianceStorage.sol";
+import "./IComplianceRule.sol";
 
 
-interface ComplianceRule {
+contract ComplianceRule is IComplianceRule {
+
+    modifier senderHasStoragePermission() {
+        require(ICompliance(msg.sender).store().permissionExists(msg.sender), "Requires storage permission");
+        _;
+    }
 
     /**
-     *  @dev Checks if a transfer can occur between the from/to addresses and MUST throw when the check fails.
-     *  @param initiator The address initiating the transfer.
-     *  @param from The address of the sender
-     *  @param to The address of the receiver
-     *  @param toKind The kind of the to address
-     *  @param tokens The number of tokens being transferred.
-     *  @param store The Storage contract
+     *  Gets the registry of the msg.sender
+     *  @dev Only call this when `msg.sender` is a Compliance contract
+     *  @return The registry of compliance
      */
-    function check(address initiator, address from, address to, uint8 toKind, uint256 tokens, Storage store)
-    external;
+    function registry()
+    internal
+    view
+    returns (IRegistry) {
+        return ICompliance(msg.sender).registry();
+    }
+
+    /**
+     *  Gets the compliance-storage of the msg.sender
+     *  @dev Only call this when `msg.sender` is a Compliance contract
+     *  @return The compliance-storage of compliance
+     */
+    function complianceStore()
+    internal
+    view
+    returns (IComplianceStorage) {
+        return ICompliance(msg.sender).store();
+    }
+
 }
